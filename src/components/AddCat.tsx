@@ -1,51 +1,48 @@
-import React, {useState} from 'react'
-import { useMutation } from 'react-query'
-import { createUser } from '../services/userService'
-import { useUserStore } from '../store/useUserStore'
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { createCat } from "../services/catService";
+import { useCatStore } from "../store/useCatStore";
 
-const AddUser: React.FC = () => {
+const AddCat: React.FC = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [position, setPosition] = useState("");
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [position, setPosition] = useState('')
+  const addCat = useCatStore((state) => state.addCat);
 
-  const addUser = useUserStore((state) => state.addUser);
-
-  const {mutate, isLoading, error} = useMutation(createUser, {
+  const { mutate, isLoading, error } = useMutation(createCat, {
     onSuccess: (data) => {
-      addUser({
+      addCat({
         id: data.id,
         firstName,
         lastName,
         email,
         phone,
-        position
+        position,
       });
 
-      setFirstName('')
-      setLastName('')
-      setEmail('')
-      setPhone('')
-      setPosition('')
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+      setPosition("");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate({ firstName, lastName, email, phone, position });
+  };
+
+  function isError(error: unknown): error is Error {
+    return error instanceof Error;
   }
-})
-
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  mutate({firstName, lastName, email, phone, position})
-}
-
-function isError(error: unknown): error is Error {
-  return error instanceof Error;
-}
 
   return (
     <div>
-
-
-<form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-floating">
           <input
             type="text"
@@ -103,18 +100,17 @@ function isError(error: unknown): error is Error {
         </div>
 
         <button
-          type='submit'
-          className='btn btn-success btn-lg'
-          disabled={isLoading}>Add New User</button>
+          type="submit"
+          className="btn btn-success btn-lg"
+          disabled={isLoading}
+        >
+          Add New User
+        </button>
 
         {isError(error) && <p>Error adding user: {error.message}</p>}
-
-
       </form>
-
-
     </div>
-  )
-}
+  );
+};
 
-export default AddUser
+export default AddCat;

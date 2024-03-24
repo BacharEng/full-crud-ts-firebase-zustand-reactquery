@@ -1,15 +1,15 @@
-import {useEffect} from 'react'
-import {useQuery} from 'react-query'
-import {fetchUsers} from '../services/userService'
-import {useUserStore} from '../store/useUserStore'
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { fetchCats } from "../services/catService";
+import { useCatStore } from "../store/useCatStore";
 
 export const useFetchAndUpdateUsers = () => {
-    const {data: users} = useQuery('users', fetchUsers);
-    const setUsers = useUserStore(state => state.setUsers)
+  const { data: cats } = useQuery("cats", fetchCats);
+  const setCats = useCatStore((state) => state.setCats);
 
-    useEffect(() => {
-        if(users){
-            setUsers(users)
-        }
-    },[users, setUsers])
-}
+  useEffect(() => {
+    if (cats) {
+      setCats(cats);
+    }
+  }, [cats, setCats]);
+};

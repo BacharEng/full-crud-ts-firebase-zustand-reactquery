@@ -1,7 +1,7 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider} from 'react-query'
-import AddUser from './components/AddUser'
-import UsersList from './components/UsersList'
+import AddUser from './components/AddCat'
+import UsersList from './components/CatsList'
 import { useFetchAndUpdateUsers } from './hook/useFetchAndUpdateUsers';
 
 const quertClient = new QueryClient();

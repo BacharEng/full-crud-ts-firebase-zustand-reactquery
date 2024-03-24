@@ -1,64 +1,64 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { deleteUser, updateUser } from "../services/userService";
-import { useUserStore, User } from "../store/useUserStore";
+import { deleteCat, updateCat } from "../services/catService";
+import { useCatStore, Cat } from "../store/useCatStore";
 
-interface UserItemProps {
-  user: User;
+interface CatItemProps {
+  cat: Cat;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user }) => {
+const CatItem: React.FC<CatItemProps> = ({ cat }) => {
   const [isEditView, setIsEditView] = useState(false);
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState(user.phone);
-  const [position, setPosition] = useState(user.position);
+  const [firstName, setFirstName] = useState(cat.firstName);
+  const [lastName, setLastName] = useState(cat.lastName);
+  const [email, setEmail] = useState(cat.email);
+  const [phone, setPhone] = useState(cat.phone);
+  const [position, setPosition] = useState(cat.position);
 
   const handleDelete = () => {
     deleteUserMutation.mutate();
   };
 
-  const deleteUserMutation = useMutation(() => deleteUser(user.id), {
+  const deleteUserMutation = useMutation(() => deleteCat(cat.id), {
     onSuccess: () => {
-      useUserStore.getState().deleteUser(user.id);
+      useCatStore.getState().deleteCat(cat.id);
     },
   });
 
-
-  const updateMutation = useMutation(({id, update}: {id: string; update: Partial<Omit<User, 'id'>>}) => 
-  updateUser(id, update), {
-    onSuccess: () => {
-      useUserStore.getState().updateUser(user.id, {
-        firstName,
-        lastName,
-        email,
-        phone,
-        position
-      });
-      setIsEditView(false)
+  const updateMutation = useMutation(
+    ({ id, update }: { id: string; update: Partial<Omit<Cat, "id">> }) =>
+      updateCat(id, update),
+    {
+      onSuccess: () => {
+        useCatStore.getState().updateCat(cat.id, {
+          firstName,
+          lastName,
+          email,
+          phone,
+          position,
+        });
+        setIsEditView(false);
+      },
     }
-  })
-
+  );
 
   const handleSubmit = () => {
     updateMutation.mutate({
-      id: user.id,
+      id: cat.id,
       update: {
         firstName,
         lastName,
         email,
         phone,
-        position
-      }
-    })
-  }
+        position,
+      },
+    });
+  };
 
   return (
     <>
       {isEditView ? (
         <>
-       
           <tr>
             <td>
               <div className="form-floating">
@@ -126,30 +126,37 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
               </div>
             </td>
             <td>
-              <button onClick={handleSubmit} className="btn btn-success btn-sm">Save</button>
+              <button onClick={handleSubmit} className="btn btn-success btn-sm">
+                Save
+              </button>
 
               <button
                 onClick={() => setIsEditView(!isEditView)}
-                className="btn btn-danger btn-sm">Back</button>
+                className="btn btn-danger btn-sm"
+              >
+                Back
+              </button>
             </td>
-
           </tr>
-
         </>
       ) : (
         <>
           <tr>
-            <td>{user.firstName}</td>
-            <td>{user.lastName}</td>
-            <td>{user.email}</td>
-            <td>{user.phone}</td>
-            <td>{user.position}</td>
+            <td>{cat.firstName}</td>
+            <td>{cat.lastName}</td>
+            <td>{cat.email}</td>
+            <td>{cat.phone}</td>
+            <td>{cat.position}</td>
             <td>
-              <button onClick={handleDelete} className="btn btn-danger btn-sm">Delete</button>
-              {" "}
+              <button onClick={handleDelete} className="btn btn-danger btn-sm">
+                Delete
+              </button>
               <button
                 onClick={() => setIsEditView(!isEditView)}
-                className="btn btn-warning btn-sm">Update</button>
+                className="btn btn-warning btn-sm"
+              >
+                Update
+              </button>
             </td>
           </tr>
         </>
@@ -158,4 +165,4 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
   );
 };
 
-export default UserItem;
+export default CatItem;

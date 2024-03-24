@@ -2,12 +2,12 @@ import { initializeApp, FirebaseApp } from "firebase/app";
 import { getFirestore, Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAKlzUk4frigeA3jBgOu457oHSqCeRv3nQ",
-  authDomain: "cheapflightsapp-dc6bb.firebaseapp.com",
-  projectId: "cheapflightsapp-dc6bb",
-  storageBucket: "cheapflightsapp-dc6bb.appspot.com",
-  messagingSenderId: "293754397179",
-  appId: "1:293754397179:web:9865f72b51edeeb62c6b5e",
+  apiKey: "AIzaSyAvDGOeDMlc-phT291-alxRqIVMWgWAQKE",
+  authDomain: "adopt-a-meow.firebaseapp.com",
+  projectId: "adopt-a-meow",
+  storageBucket: "adopt-a-meow.appspot.com",
+  messagingSenderId: "813285627452",
+  appId: "1:813285627452:web:0560082b05003d84ae1539",
 };
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
